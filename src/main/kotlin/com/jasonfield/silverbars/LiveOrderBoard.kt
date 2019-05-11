@@ -5,8 +5,10 @@ import java.math.BigDecimal.ZERO
 class LiveOrderBoard {
     private val orders = mutableListOf<Order>()
 
-    fun liveOrders(): List<OrderSummary> {
-        return orders.groupBy { it.price }
+    fun liveOrders(orderType: OrderType): List<OrderSummary> {
+        return orders
+            .filter { it.orderType == orderType }
+            .groupBy { it.price }
             .map {
                 val summedQuantity = it.value.fold(ZERO) { acc, order -> acc.plus(order.quantity) }
                 OrderSummary(summedQuantity, it.key)

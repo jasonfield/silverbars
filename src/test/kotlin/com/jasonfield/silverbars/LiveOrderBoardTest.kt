@@ -1,6 +1,7 @@
 package com.jasonfield.silverbars
 
 import com.jasonfield.silverbars.OrderType.Buy
+import com.jasonfield.silverbars.OrderType.Sell
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -15,7 +16,7 @@ internal class LiveOrderBoardTest {
 
         board.register(sampleOrder)
 
-        val orders = board.liveOrders()
+        val orders = board.liveOrders(Buy)
 
         assertThat(orders).containsExactly(OrderSummary(BigDecimal("1.23"), 100))
     }
@@ -27,7 +28,7 @@ internal class LiveOrderBoardTest {
         board.register(sampleOrder)
         board.cancel(sampleOrder)
 
-        val orders = board.liveOrders()
+        val orders = board.liveOrders(Buy)
 
         assertThat(orders).isEmpty()
     }
@@ -53,11 +54,35 @@ internal class LiveOrderBoardTest {
         board.register(order2)
         board.register(order3)
 
-        val orders = board.liveOrders()
+        val orders = board.liveOrders(Buy)
 
         assertThat(orders).containsExactly(
             OrderSummary(BigDecimal("5.41"), 100),
             OrderSummary(BigDecimal("3.3"), 150)
+        )
+    }
+
+    @Test
+    internal fun `buy and sell orders are independent`() {
+        val order1 = Order("user1", BigDecimal("1.2"), 100, Buy)
+        val order2 = Order("user2", BigDecimal("3.3"), 150, Buy)
+        val order3 = Order("user3", BigDecimal("4.21"), 100, Sell)
+
+        board.register(order1)
+        board.register(order2)
+        board.register(order3)
+
+        val buyOrders = board.liveOrders(Buy)
+
+        assertThat(buyOrders).containsExactly(
+            OrderSummary(BigDecimal("1.2"), 100),
+            OrderSummary(BigDecimal("3.3"), 150)
+        )
+
+        val sellOrders = board.liveOrders(Sell)
+
+        assertThat(sellOrders).containsExactly(
+            OrderSummary(BigDecimal("4.21"), 100)
         )
     }
 }
