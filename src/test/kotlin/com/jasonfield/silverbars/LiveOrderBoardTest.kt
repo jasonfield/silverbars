@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 
-internal class LiveOrderBoardTest {
+class LiveOrderBoardTest {
     private val board = LiveOrderBoard()
 
     @Test
-    internal fun `can list a registered order`() {
+    fun `can list a registered order`() {
         val sampleOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
 
         board.register(sampleOrder)
@@ -22,7 +22,7 @@ internal class LiveOrderBoardTest {
     }
 
     @Test
-    internal fun `can cancel an order`() {
+    fun `can cancel an order`() {
         val sampleOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
 
         board.register(sampleOrder)
@@ -34,7 +34,7 @@ internal class LiveOrderBoardTest {
     }
 
     @Test
-    internal fun `cancelling an order which does not exist throws an exception`() {
+    fun `cancelling an order which does not exist throws an exception`() {
         val unknownOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
 
         val exception = assertThrows<OrderNotFound> {
@@ -45,7 +45,7 @@ internal class LiveOrderBoardTest {
     }
 
     @Test
-    internal fun `orders for the same price are merged when listing the orders`() {
+    fun `orders for the same price are merged when listing the orders`() {
         val order1 = Order("user1", BigDecimal("1.2"), 100, Buy)
         val order2 = Order("user2", BigDecimal("3.3"), 150, Buy)
         val order3 = Order("user3", BigDecimal("4.21"), 100, Buy)
@@ -63,7 +63,7 @@ internal class LiveOrderBoardTest {
     }
 
     @Test
-    internal fun `buy and sell orders are independent`() {
+    fun `buy and sell orders are independent`() {
         val order1 = Order("user1", BigDecimal("1.2"), 100, Buy)
         val order2 = Order("user2", BigDecimal("3.3"), 150, Buy)
         val order3 = Order("user3", BigDecimal("4.21"), 100, Sell)
