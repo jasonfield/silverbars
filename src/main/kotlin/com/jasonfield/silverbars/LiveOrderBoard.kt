@@ -13,6 +13,7 @@ class LiveOrderBoard {
                 val summedQuantity = it.value.fold(ZERO) { acc, order -> acc.plus(order.quantity) }
                 OrderSummary(summedQuantity, it.key)
             }
+            .sortedBy { it.price }
     }
 
     fun register(order: Order) {
