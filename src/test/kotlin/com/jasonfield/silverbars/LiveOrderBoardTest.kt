@@ -57,8 +57,8 @@ class LiveOrderBoardTest {
         val orders = board.liveOrders(Buy)
 
         assertThat(orders).containsExactly(
-            OrderSummary(BigDecimal("5.41"), 100),
-            OrderSummary(BigDecimal("3.3"), 150)
+            OrderSummary(BigDecimal("3.3"), 150),
+            OrderSummary(BigDecimal("5.41"), 100)
         )
     }
 
@@ -75,8 +75,8 @@ class LiveOrderBoardTest {
         val buyOrders = board.liveOrders(Buy)
 
         assertThat(buyOrders).containsExactly(
-            OrderSummary(BigDecimal("1.2"), 100),
-            OrderSummary(BigDecimal("3.3"), 150)
+            OrderSummary(BigDecimal("3.3"), 150),
+            OrderSummary(BigDecimal("1.2"), 100)
         )
 
         val sellOrders = board.liveOrders(Sell)
@@ -100,6 +100,23 @@ class LiveOrderBoardTest {
             OrderSummary(BigDecimal("2"), 80),
             OrderSummary(BigDecimal("1"), 100),
             OrderSummary(BigDecimal("3"), 120)
+        )
+    }
+
+    @Test
+    fun `buy orders are returned highest price first`() {
+        board.register(Order("user1", BigDecimal("1"), 100, Buy))
+        board.register(Order("user2", BigDecimal("2"), 80, Buy))
+        board.register(Order("user3", BigDecimal("3"), 120, Buy))
+        board.register(Order("user3", BigDecimal("4"), 60, Buy))
+
+        val orders = board.liveOrders(Buy)
+
+        assertThat(orders).containsExactly(
+            OrderSummary(BigDecimal("3"), 120),
+            OrderSummary(BigDecimal("1"), 100),
+            OrderSummary(BigDecimal("2"), 80),
+            OrderSummary(BigDecimal("4"), 60)
         )
     }
 }

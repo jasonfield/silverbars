@@ -6,14 +6,15 @@ class LiveOrderBoard {
     private val orders = mutableListOf<Order>()
 
     fun liveOrders(orderType: OrderType): List<OrderSummary> {
-        return orders
+        val orderSummary = orders
             .filter { it.orderType == orderType }
             .groupBy { it.price }
             .map {
                 val summedQuantity = it.value.fold(ZERO) { acc, order -> acc.plus(order.quantity) }
                 OrderSummary(summedQuantity, it.key)
             }
-            .sortedBy { it.price }
+
+        return orderType.sort(orderSummary)
     }
 
     fun register(order: Order) {
