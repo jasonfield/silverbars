@@ -9,10 +9,7 @@ class LiveOrderBoard {
         val orderSummary = orders
             .filter { it.orderType == orderType }
             .groupBy { it.price }
-            .map {
-                val summedQuantity = it.value.fold(ZERO) { acc, order -> acc.plus(order.quantity) }
-                OrderSummary(summedQuantity, it.key)
-            }
+            .map { OrderSummary(sumOrderQuantities(it), it.key) }
 
         return orderType.sort(orderSummary)
     }
@@ -28,4 +25,7 @@ class LiveOrderBoard {
 
         orders.remove(order)
     }
+
+    private fun sumOrderQuantities(entry: Map.Entry<Int, List<Order>>) =
+        entry.value.fold(ZERO) { acc, order -> acc.plus(order.quantity) }
 }
