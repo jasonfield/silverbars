@@ -3,8 +3,10 @@ package com.jasonfield.silverbars
 class LiveOrderBoard {
     private val orders = mutableListOf<Order>()
 
-    fun liveOrders(): List<Order> {
-        return orders
+    fun liveOrders(): List<OrderSummary> {
+        return orders.map {
+            OrderSummary(it.quantity, it.price)
+        }
     }
 
     fun register(order: Order) {

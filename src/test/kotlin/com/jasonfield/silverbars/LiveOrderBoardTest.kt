@@ -17,7 +17,7 @@ internal class LiveOrderBoardTest {
 
         val orders = board.liveOrders()
 
-        assertThat(orders).containsExactly(sampleOrder)
+        assertThat(orders).containsExactly(OrderSummary(BigDecimal("1.23"), 100))
     }
 
     @Test
