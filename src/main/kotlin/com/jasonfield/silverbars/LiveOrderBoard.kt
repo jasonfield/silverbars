@@ -1,12 +1,16 @@
 package com.jasonfield.silverbars
 
+import java.math.BigDecimal.ZERO
+
 class LiveOrderBoard {
     private val orders = mutableListOf<Order>()
 
     fun liveOrders(): List<OrderSummary> {
-        return orders.map {
-            OrderSummary(it.quantity, it.price)
-        }
+        return orders.groupBy { it.price }
+            .map {
+                val summedQuantity = it.value.fold(ZERO) { acc, order -> acc.plus(order.quantity) }
+                OrderSummary(summedQuantity, it.key)
+            }
     }
 
     fun register(order: Order) {
