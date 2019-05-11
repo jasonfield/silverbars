@@ -12,6 +12,10 @@ class LiveOrderBoard {
     }
 
     fun cancel(order: Order) {
+        if (!orders.contains(order)) {
+            throw OrderNotFound(order)
+        }
+
         orders.remove(order)
     }
 }
