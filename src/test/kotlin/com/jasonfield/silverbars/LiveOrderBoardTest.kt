@@ -18,4 +18,16 @@ internal class LiveOrderBoardTest {
 
         assertThat(orders).containsExactly(sampleOrder)
     }
+
+    @Test
+    internal fun `can cancel an order`() {
+        val sampleOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
+
+        board.register(sampleOrder)
+        board.cancel(sampleOrder)
+
+        val orders = board.liveOrders()
+
+        assertThat(orders).isEmpty()
+    }
 }
