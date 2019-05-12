@@ -19,9 +19,7 @@ class LiveOrderBoardTest {
 
     @Test
     fun `can list a registered order`() {
-        val sampleOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
-
-        board.register(sampleOrder)
+        board.register(Order("user1", BigDecimal("1.23"), 100, Buy))
 
         val orders = board.liveOrders(Buy)
 
@@ -53,13 +51,9 @@ class LiveOrderBoardTest {
 
     @Test
     fun `orders for the same price are merged when listing the orders`() {
-        val order1 = Order("user1", BigDecimal("1.2"), 100, Buy)
-        val order2 = Order("user2", BigDecimal("3.3"), 150, Buy)
-        val order3 = Order("user3", BigDecimal("4.21"), 100, Buy)
-
-        board.register(order1)
-        board.register(order2)
-        board.register(order3)
+        board.register(Order("user1", BigDecimal("1.2"), 100, Buy))
+        board.register(Order("user2", BigDecimal("3.3"), 150, Buy))
+        board.register(Order("user3", BigDecimal("4.21"), 100, Buy))
 
         val orders = board.liveOrders(Buy)
 
@@ -71,13 +65,9 @@ class LiveOrderBoardTest {
 
     @Test
     fun `buy and sell orders are independent`() {
-        val order1 = Order("user1", BigDecimal("1.2"), 100, Buy)
-        val order2 = Order("user2", BigDecimal("3.3"), 150, Buy)
-        val order3 = Order("user3", BigDecimal("4.21"), 100, Sell)
-
-        board.register(order1)
-        board.register(order2)
-        board.register(order3)
+        board.register(Order("user1", BigDecimal("1.2"), 100, Buy))
+        board.register(Order("user2", BigDecimal("3.3"), 150, Buy))
+        board.register(Order("user3", BigDecimal("4.21"), 100, Sell))
 
         val buyOrders = board.liveOrders(Buy)
 
