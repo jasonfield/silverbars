@@ -6,8 +6,8 @@ writing in recently. If you would prefer a pure Java implementation then please 
 
 ## How to build and run the tests
 
-The solution is build using Gradle 5.4.1 and includes the Gradle wrapper files so it should be possible to run the 
-following, assuming that there are no issues with corporate proxies:
+I built the project locally using Gradle 5.4.1 and Java 1.8.0_101 and I have included the Gradle wrapper files in the repo
+so it should be possible to run the following, assuming that there are no issues with corporate proxies:
 
     gradlew test
     
