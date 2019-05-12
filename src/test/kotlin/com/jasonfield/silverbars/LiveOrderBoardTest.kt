@@ -11,6 +11,13 @@ class LiveOrderBoardTest {
     private val board = LiveOrderBoard()
 
     @Test
+    fun `live orders are empty if no orders have been added`() {
+        val orders = board.liveOrders(Buy)
+
+        assertThat(orders).isEmpty()
+    }
+
+    @Test
     fun `can list a registered order`() {
         val sampleOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
 
@@ -34,7 +41,7 @@ class LiveOrderBoardTest {
     }
 
     @Test
-    fun `cancelling an order which does not exist throws an exception`() {
+    fun `cancelling an order which has not been registered throws an exception`() {
         val unknownOrder = Order("user1", BigDecimal("1.23"), 100, Buy)
 
         val exception = assertThrows<OrderNotFound> {
